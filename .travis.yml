@@ -1,0 +1,15 @@
+sudo: required
+services: 
+  - docker
+
+before_install:
+  - docker build -t dinocohen/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true dinocohen/react-test npm test
+
+after_success:
+  - docker build -t dinocohen/multi-client ./client
+  - docker build -t dinocohen/multi-nginx ./nginx
+  - docker build -t dinocohen/multi-api ./server
+  - docker build -t dinocohen/multi-worker ./worker
