@@ -13,3 +13,11 @@ after_success:
   - docker build -t dinocohen/multi-nginx ./nginx
   - docker build -t dinocohen/multi-api ./server
   - docker build -t dinocohen/multi-worker ./worker
+  #Login to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password=stdin
+  # Take those images and push them to docker hub
+  - docker push -t dinocohen/multi-client
+  - docker push -t dinocohen/multi-nginx
+  - docker push -t dinocohen/multi-api
+  - docker push -t dinocohen/multi-worker
+  
